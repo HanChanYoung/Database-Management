@@ -2,13 +2,13 @@ version: '3'
 services:
   mysql:
     image: mysql:8.0
-    container_name: mysql2
+    container_name: mysql
     ports:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_USER: mysqluser
-      MYSQL_PASSWORD: mysqlpw
+      MYSQL_PASSWORD: mysqlpw 
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -34,13 +34,26 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-
   mysql-sink:
     image: mysql:8.0
     container_name: mysql-sink
     ports:
       - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpw
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - /home/centos/mysql_sink
+
+  maria-sink:
+    image: mariadb
+    container_name: maria-sink
+    ports:
+      - 3308:3306
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_USER: mysqluser
